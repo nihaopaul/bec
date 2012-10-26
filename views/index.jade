@@ -1,0 +1,56 @@
+!!! 5
+html
+  head
+    title Inbox
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+    link(rel='stylesheet', href='stylesheets/base.css')
+  body
+
+
+.container
+    .shadow.left
+      .main
+        h1 WLFP
+        #content
+      .shadow.right
+    //
+       Templates 
+    script#tpl_thread_list(type='text/template')
+      <h2 class="centered">Inbox</h2>
+      <ul class="thread_list"></ul>
+      <div class="error_message"></div>
+
+    script#tpl_thread_summary(type='text/template')
+      <span class="thread_title">{{title}}</span>
+      <span class="time">{{date}} </span>
+
+    script#tpl_thread(type='text/template')
+      <h2 class="centered">Thread - "{{title}}"</h2>
+      <div class="message_list"></div>
+      <h2>New message</div>
+      <ul>
+      <li>Author: <input class="new_message_author" type="text" /></li>
+      <li>Text: <textarea class="new_message_text" /></li>
+      </ul>
+      <input type="submit" value="Post message" />
+      </ul>
+      <div class="error_message"></div>
+
+    script#tpl_message(type='text/template')
+      <div class="message">
+      <div class="message_author">By: {{author}}</div>
+      <div class="message_text">{{text}}</div>
+      </div>
+
+    script(src='javascripts/lib/jquery-1.8.2.min.js')
+    script(src='javascripts/lib/underscore-min.js')
+    script(src='javascripts/lib/backbone-min.js')
+    script(src='javascripts/lib/handlebars-1.0.0.beta.6.js')
+    script(src='javascripts/lib/backbone-relational.js')
+    script(src='javascripts/lib/backbone-localstorage.js')
+    script(src='javascripts/models/email.js')
+    script(type='text/javascript')
+      (function($) {
+      $.inbox.bootstrap();
+      })(jQuery);
