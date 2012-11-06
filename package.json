@@ -11,6 +11,7 @@
     "inbox" : "0.1.26",
     "mailparser" : "0.2.30",
     "pipette" : "0.9.1",
-    "dateformat" : "*"
+    "dateformat" : "*",
+    "mongoose":">=2.5.13"
   }
 }

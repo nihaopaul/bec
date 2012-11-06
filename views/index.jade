@@ -4,38 +4,63 @@ html
     title Inbox
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
-    link(rel='stylesheet', href='stylesheets/base.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='/stylesheets/base.css')
+
   body
 
 
 .container
     .shadow.left
       .main
-        h1 WLFP
         #content
       .shadow.right
     //
        Templates 
     script#tpl_thread_list(type='text/template')
       <h2 class="centered">Inbox</h2>
-      <ul class="thread_list"></ul>
+      <div class="emails"></div>
       <div class="error_message"></div>
 
     script#tpl_thread_summary(type='text/template')
       <span class="thread_title">{{title}}</span>
-      <span class="time">{{date}} </span>
+      <span class="time">{{date}}</span>
 
     script#tpl_thread(type='text/template')
-      <h2 class="centered">Thread - "{{title}}"</h2>
-      <div class="message_list"></div>
-      <h2>New message</div>
-      <ul>
-      <li>Author: <input class="new_message_author" type="text" /></li>
-      <li>Text: <textarea class="new_message_text" /></li>
+      <header class="headers">
+      <div class="fromblock">
+      <h1>{{from.0.name}}</h1>
+      <h2>{{from.0.address}}</h2>
+      </div>
+      <div class="informationblock">
+      <h1>{{headers.date}}</h1>
+      <h2>{{subject}}</h2>
+      </div>
+      <div class="infolist">
+      {{#if to}}
+      <ul class="tolist">
+      <li>To:
+      {{#each to}}{{this.name}} {{this.address}}, {{/each}}
+      </li>
       </ul>
-      <input type="submit" value="Post message" />
+      {{/if}}
+      {{#if cc}}
+      <ul class="cclist">
+      <li>cc:
+      {{#each cc}}{{this.name}} {{this.address}}, {{/each}}
+      </li>
       </ul>
-      <div class="error_message"></div>
+      {{/if}}
+      </div>
+
+      </header>
+      <div class="body">
+      {{#if html}}
+      {{{html}}}
+      {{else}}
+      {{breaklines text}}
+      {{/if}}
+      </div>
 
     script#tpl_message(type='text/template')
       <div class="message">
@@ -43,13 +68,14 @@ html
       <div class="message_text">{{text}}</div>
       </div>
 
-    script(src='javascripts/lib/jquery-1.8.2.min.js')
-    script(src='javascripts/lib/underscore-min.js')
-    script(src='javascripts/lib/backbone-min.js')
-    script(src='javascripts/lib/handlebars-1.0.0.beta.6.js')
-    script(src='javascripts/lib/backbone-relational.js')
-    script(src='javascripts/lib/backbone-localstorage.js')
-    script(src='javascripts/models/email.js')
+    script(src='/javascripts/lib/jquery-1.8.2.min.js')
+    script(src='/javascripts/lib/underscore-min.js')
+    script(src='/javascripts/lib/backbone-min.js')
+    script(src='/javascripts/lib/handlebars-1.0.0.beta.6.js')
+    script(src='/javascripts/lib/handlebars-helper.js')
+    script(src='/javascripts/lib/backbone-relational.js')
+    script(src='/javascripts/lib/backbone-localstorage.js')
+    script(src='/javascripts/models/email.js')
     script(type='text/javascript')
       (function($) {
       $.inbox.bootstrap();

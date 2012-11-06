@@ -14,6 +14,11 @@ var app = express();
 var config = require('./config')(app);
 
 
+var mongoose = require('mongoose')
+  , db = mongoose.connect('mongodb://localhost/inbox')
+  , Inbox = require('./models.js').Inbox(db);
+
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -33,6 +38,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/body/:UUID', routes.index);
 app.get('/api/inbox', email.inbox);
 app.get('/api/body/:UUID', email.body);
 app.get('/api/mailboxes', email.mailboxes);

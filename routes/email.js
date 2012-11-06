@@ -5,9 +5,16 @@ var inbox = require("inbox")
 	, Pipe = require('pipette').Pipe
 	, dateFormat = require('dateformat');
 
+
 dateFormat.masks.hammerTime = 'HH:MM d/mm/yyyy';
 
 exports.inbox = function(req, res){
+
+	/* cache a copy 
+	new_thread = new Inbox({title: req.body.title, messages: blah});
+    new_thread.save();
+    */
+
 	var mail = {};
 
 	var client = inbox.createConnection(false, req.app.imap.server, {
@@ -27,7 +34,6 @@ exports.inbox = function(req, res){
 	//});
 	client.on("error", function(error) {
 		console.log(error);
-		res.send({"error" : "something bad happened"});
 	});
 	client.on("connect", function(){
 
@@ -41,11 +47,15 @@ exports.inbox = function(req, res){
 	        		messages[i].date = dateFormat(messages[i].date, "hammerTime");
 	        	}
 
-	        	res.send(messages);
+	        	res.send( messages);
+	        	client.close();
+				console.log('closed inbox');
 	        });
+
 
 	    });
 	});
+
 
 };
 
@@ -59,13 +69,7 @@ exports.mailboxes = function(req,res) {
 	    }
 	});
 
-
 	client.connect();
-
-
-	//client.on("new", function(message){
-	//    console.log("New incoming message " + message.title);
-	//});
 
 	client.on("connect", function(){
 
@@ -76,6 +80,8 @@ exports.mailboxes = function(req,res) {
 		                res.send(children);
 		            });
 		        }
+		        client.close();
+				console.log("closed mailboxes");
 		    }
 		});
 	});
@@ -87,22 +93,37 @@ exports.mailboxes = function(req,res) {
 exports.body = function(req, res) {
 
 	req.app.imap.uuid = req.params.UUID;
-	var mail = {};
+	var mail, data, postData = {};
+
 
 	var data = new Pipe();
 
-  	var postData = new Sink(data.reader);
-	postData.on("data", onPostData);
-
+  	//var postData = new Sink(data.reader);
+	//postData.on("data", onPostData);
+/*
 	function onPostData(data) {
 
 		message = mailparser.write(data.toString());
 		mailparser.end();
-	}
+	}*/
 
 	var mailparser = new MailParser();
+
 	mailparser.on("end", function(mail_object){
-		res.send(mail_object);
+		mail_object.headers.date = dateFormat(mail_object.headers.date, "hammerTime");
+
+		var send = {};
+		send.headers = mail_object.headers;
+		send.subject = mail_object.subject;
+		send.from = mail_object.from;
+		send.to = mail_object.to;
+		send.html = mail_object.html;
+		send.text = mail_object.text;
+
+		res.send(send);
+
+		client.close();
+		console.log("closed body");
 
 	});
 
@@ -123,14 +144,13 @@ exports.body = function(req, res) {
 		client.openMailbox("INBOX", req.app.imap.options, function(error, info){
 			if(error) throw error;
 
-			client.createMessageStream(req.app.imap.uuid).pipe(data.writer, {end: true});
 
+			client.createMessageStream(req.app.imap.uuid).pipe(mailparser);
+			//client.createMessageStream(req.app.imap.uuid).pipe(data.writer, {end: true});
+			//client.createMessageStream(req.app.imap.uuid).pipe(process.stdout, {end: false});
 
 		});
 	});
-
-
-
 
 
 };

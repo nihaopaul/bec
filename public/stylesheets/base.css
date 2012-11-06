@@ -21,7 +21,7 @@ body {
 }
 .main { padding: 10px; }
 .time { position: relative; float: right; }
-
+.message_list { white-space: pre; }
 /*
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox and Opera
@@ -51,5 +51,21 @@ body {
 .hidden{
 	display:none;
 }
+
+.body { border: 2px solid #ccc; padding: 10px; background: rgba(255,255,255,1); }
+
+header { padding: 10px;  overflow: show; display: block; background-color: rgba(0,0,0,.2); position: relative;    }
+.fromblock { display: inline-block;  position: relative;  padding-right: 10px ; margin: 0;   }
+.fromblock h1 { font-size: 1.1em; margin: 0; padding: 0;  }
+.fromblock h2 { font-weight: normal; font-size: 1.0em; margin: 0; padding: 0; }
+.informationblock { margin: 0px; display: inline-block;  position: relative; }
+.informationblock h2 { font-size: 1.1em; margin: 0; padding: 0;  }
+.informationblock h1 { font-weight: normal; font-size: 1.0em; margin: 0; padding: 0; }
+.infolist ul { margin: 0; padding: 0; line-height: 0.8em; }
+.infolist .tolist li, .infolist .cclist li { display: inline; font-size: 0.8em; margin: 0; padding: 0; }
+.infolist {  display: block; position: relative; margin-top: 10px;  }
+
+
+
 
 
