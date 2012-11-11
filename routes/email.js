@@ -3,10 +3,10 @@ var inbox = require("inbox")
 	, MailParser = require("mailparser").MailParser 
 	, Sink = require('pipette').Sink
 	, Pipe = require('pipette').Pipe
-	, dateFormat = require('dateformat');
+	, moment = require('moment');
 
 
-dateFormat.masks.hammerTime = 'HH:MM d/mm/yyyy';
+
 
 exports.inbox = function(req, res){
 
@@ -16,6 +16,8 @@ exports.inbox = function(req, res){
     */
 
 	var mail = {};
+	var folder = 'INBOX';
+	var limit = 20;
 
 	var client = inbox.createConnection(false, req.app.imap.server, {
 	    secureConnection: req.app.imap.secureConnection,
@@ -29,24 +31,24 @@ exports.inbox = function(req, res){
 	client.connect();
 
 
-	//client.on("new", function(message){
-	//    console.log("New incoming message " + message.title);
-	//});
+
 	client.on("error", function(error) {
 		console.log(error);
 	});
 	client.on("connect", function(){
 
-	    client.openMailbox("INBOX", req.app.imap.options, function(error, info){
-	        if(error) console.log("connect: " + error);
+		if (req.query.folder) {
+			folder = req.query.folder;
+		}
+		if (req.query.limit) {
+			limit = req.query.limit;
+		}
+	    client.openMailbox(folder, req.app.imap.options, function(error, info){
+	        if(error) console.log("inbox: " + error);
 
-	        client.listMessages(-20, function(err, messages){
+	        client.listMessages(-parseFloat(limit), function(err, messages){
 
-	        	//
-	        	for(var i=0; i<messages.length; i++) {
-	        		messages[i].date = dateFormat(messages[i].date, "hammerTime");
-	        	}
-
+	        	messages.reverse();
 	        	res.send( messages);
 	        	client.close();
 				console.log('closed inbox');
@@ -74,16 +76,23 @@ exports.mailboxes = function(req,res) {
 	client.on("connect", function(){
 
 		client.listMailboxes(function(error, mailboxes){
+			if(error) console.log("mailboxes: " + error);
+			var root = mailboxes;
+
 		    for(var i=0, len = mailboxes.length; i<len; i++){
 		        if(mailboxes[i].hasChildren){
 		            mailboxes[i].listChildren(function(error, children){
-		                res.send(children);
+		            	children.unshift(root[0]);
+		            	res.send(children);
+					    client.close();
+						console.log("closed mailboxes");
 		            });
 		        }
-		        client.close();
-				console.log("closed mailboxes");
 		    }
 		});
+	});
+	client.on("end", function() {
+		console.log("ended");
 	});
 
 
@@ -92,31 +101,31 @@ exports.mailboxes = function(req,res) {
 
 exports.body = function(req, res) {
 
-	req.app.imap.uuid = req.params.UUID;
+	//req.app.imap.uuid = req.params.UUID;
 	var mail, data, postData = {};
-
+	req.app.imap.folder = 'INBOX';
+	if (req.query.folder) {
+			req.app.imap.folder = req.query.folder;
+	}
+	if (req.query.UID) {
+			req.app.imap.uuid = req.query.UID;
+	}
 
 	var data = new Pipe();
 
-  	//var postData = new Sink(data.reader);
-	//postData.on("data", onPostData);
-/*
-	function onPostData(data) {
 
-		message = mailparser.write(data.toString());
-		mailparser.end();
-	}*/
 
 	var mailparser = new MailParser();
 
 	mailparser.on("end", function(mail_object){
-		mail_object.headers.date = dateFormat(mail_object.headers.date, "hammerTime");
+		//mail_object.headers.date =  mail_object.headers.date;//moment(mail_object.headers.date).format("ddd, h:mmA");
 
 		var send = {};
 		send.headers = mail_object.headers;
 		send.subject = mail_object.subject;
 		send.from = mail_object.from;
 		send.to = mail_object.to;
+		send.cc = mail_object.cc;
 		send.html = mail_object.html;
 		send.text = mail_object.text;
 
@@ -141,11 +150,17 @@ exports.body = function(req, res) {
 	client.on("connect", function(){
 
 
-		client.openMailbox("INBOX", req.app.imap.options, function(error, info){
-			if(error) throw error;
+		client.openMailbox(req.app.imap.folder, req.app.imap.options, function(error, info){
+			//if(error) throw error;
+ 			if(error) console.log("body: " + error);
 
-
-			client.createMessageStream(req.app.imap.uuid).pipe(mailparser);
+			try{
+				client.createMessageStream(req.app.imap.uuid).pipe(mailparser);
+			}
+			catch (e) {
+				console.log(e);
+			}
+			
 			//client.createMessageStream(req.app.imap.uuid).pipe(data.writer, {end: true});
 			//client.createMessageStream(req.app.imap.uuid).pipe(process.stdout, {end: false});
 

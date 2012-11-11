@@ -12,6 +12,7 @@
     "mailparser" : "0.2.30",
     "pipette" : "0.9.1",
     "dateformat" : "*",
-    "mongoose":">=2.5.13"
+    "mongoose":">=2.5.13",
+    "moment" : "1.7.2"
   }
 }

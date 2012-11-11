@@ -27,7 +27,7 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'kitty'}));
+  app.use(express.session({ secret: 'miao'}));
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
@@ -38,9 +38,8 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
-app.get('/body/:UUID', routes.index);
 app.get('/api/inbox', email.inbox);
-app.get('/api/body/:UUID', email.body);
+app.get('/api/body', email.body);
 app.get('/api/mailboxes', email.mailboxes);
 
 http.createServer(app).listen(app.get('port'), function(){
