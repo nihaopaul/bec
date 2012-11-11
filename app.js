@@ -41,6 +41,11 @@ app.get('/', routes.index);
 app.get('/api/inbox', email.inbox);
 app.get('/api/body', email.body);
 app.get('/api/mailboxes', email.mailboxes);
+app.get('/login', email.login);
+//app.get('/api/people', linkdin.people);
+//app.get('/li-auth', linkdin.auth);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
