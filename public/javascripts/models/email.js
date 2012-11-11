@@ -29,11 +29,11 @@
     });
 
     $.inbox.Thread = Backbone.RelationalModel.extend({
-        urlRoot: '/api/inbox',
+        urlRoot: '/api/body',
         idAttribute: '_id',
         relations: [{
             type: Backbone.HasMany,
-            key: 'messages',
+            key: 'emails',
             relatedModel: '$.inbox.Message',
             reverseRelation: {
                 key: 'emails',
@@ -73,7 +73,7 @@
         
         render_email: function(inbox) {
             var thread_summary_view = new $.inbox.ThreadSummaryView({model: inbox});
-            this.$('ul.thread_list').prepend($(thread_summary_view.render()));
+            this.$('div.emails').prepend($(thread_summary_view.render()));
         },
         
         events: {
@@ -115,6 +115,7 @@
         initialize: function(){
             _.bindAll(this, 'render', 'on_click');
             this.model.bind('change', this.render);
+
         },
     
         template: Handlebars.compile($('#tpl_thread_summary').html()),
@@ -156,9 +157,12 @@
         },
         
         events: {
-            'click input[type=submit]': 'on_submit',
+            'click .headers' : 'go_back',
         },
-        
+        go_back: function(e) {
+
+            $.inbox.app.navigate('/', {trigger: true});
+        },
         on_submit: function(e) {
             var new_message = new $.inbox.Message({author: this.$('.new_message_author').val(),
                                                     text: this.$('.new_message_text').val(),
@@ -167,44 +171,26 @@
         },
     });
     
-    // Message //
-    
-    $.inbox.MessageView = Backbone.View.extend({
-        tagName: 'div',
 
-        className: 'message_view',
-        
-        initialize: function(){
-            _.bindAll(this, 'render');
-            this.model.bind('change', this.render);
-        },
-    
-        template: Handlebars.compile($('#tpl_message').html()),
-        
-        render: function() {
-            return $(this.el).html(this.template(this.model.toJSON()));
-        },
-    });
     
     // Router ///////////////////////////////////////////////////////////////
     
     $.inbox.Router = Backbone.Router.extend({
         routes: {
             "": "show_thread_list",
-            "body/:_id/": "show_thread",
+            "body/:_id": "show_thread",
         },
     
         show_thread_list: function() {
             var thread_collection = new $.inbox.ThreadCollection();
-            var thread_list_view = new $.inbox.ThreadListView({el: $('#content'), 
-                                                                model: thread_collection });
+            var thread_list_view = new $.inbox.ThreadListView({el: $('#content'), model: thread_collection });
             thread_collection.fetch();
         },
         
         show_thread: function(_id) {
             var thread = new $.inbox.Thread({_id: _id});
-            var thread_view = new $.inbox.ThreadView({el: $('#content'), model: inbox});
-            inbox.fetch();
+            var thread_view = new $.inbox.ThreadView({el: $('#content'), model: thread});
+            thread.fetch();
         },
         
     });
