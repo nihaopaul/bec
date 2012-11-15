@@ -7,6 +7,25 @@ function WebmailViewModel() {
     self.chosenFolderData = ko.observable();
     self.chosenMailData = ko.observable();
 
+    self.login = ko.observable(true);
+
+
+    self.chosenMailData.subscribe(function(data) {
+        if (data && data.error != null) {
+            location = '/login'; 
+        }
+    });
+    self.chosenFolderData.subscribe(function(data) {
+        if (data && data.error != null) {
+            location = '/login'; 
+        }
+    });
+    self.folders.subscribe(function(data) {
+        if (data && data.error != null) {
+            location = '/login'; 
+        }
+    });
+
     // Behaviours    
     self.goToFolder = function(folder) { /*location.hash = '/'*/
         location.hash = '/'+folder.path;
@@ -16,6 +35,7 @@ function WebmailViewModel() {
         //console.log(mail);
         location.hash = '/'+mail.path + '/body/' + mail.UID; 
     };
+
 
     self.formattext = function(text){ 
         text = text.toString();
@@ -34,32 +54,22 @@ function WebmailViewModel() {
         } else if (difference <= 24*7) {
             return time.format("ddd, h:mmA");
         } else {
-            return time.format("YYYY/MM/DD hh:mm:ssA ZZ");
+            return time.format("YYYY/MM/DD hh:mmA ZZ");
         }
     }
 
-    self.formatEmails = function(text){
-        var addresses = [];
-        for (var key in text) {
-          if (text.hasOwnProperty(key)) {
-            //address: "indoorbandy@hotmail.com",name:"Indoor Bandy Shanghai"
-            //addresses.push(text[key].name + " <"+text[key].address+">")
-            addresses.push(text[key]);
-            console.log(text);
-          }
-        }
-        if (addresses.length > 0) {
-            return addresses;
-        } else {
-            return 'Unknown';
-        }
-    };
+
 
     $.get("/api/mailboxes", self.folders);
     // Client-side routes    
     Sammy(function() {
+        debug = true,
+        this.get('#/login', function() {
+            self.login(true);
+        });
         this.get('#/:folder', function() {
             //self.chosenFolderId(this.params.folder);
+            self.chosenFolderId(this.params.folder);
             self.chosenMailData(null);
             //$.get("/api/inbox", { folder: this.params.folder }, self.chosenFolderData);
             if ( this.params.folder ) {
@@ -72,8 +82,8 @@ function WebmailViewModel() {
         });
 
         this.get('#/:folder/body/:UID', function() {
-            //self.chosenFolderId(this.params.folder);
-            //self.chosenFolderData(null);
+            self.chosenFolderId(this.params.folder);
+            self.chosenFolderData(null);
 
             if ( this.params.folder ) {
                 $.get("/api/body", { folder: this.params.folder, UID: this.params.UID }, self.chosenMailData);
@@ -85,7 +95,7 @@ function WebmailViewModel() {
 
         });
     
-        this.get('', function() { this.app.runRoute('get', '#/Inbox') });
+        this.get('', function() { this.app.runRoute('get', '/#/INBOX') });
     }).run();    
 };
 

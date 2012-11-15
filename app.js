@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , email = require('./routes/email')
+  , login = require('./routes/login')
   , http = require('http')
   , path = require('path');
 
@@ -37,14 +38,16 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+
+
+
+
 app.get('/', routes.index);
 app.get('/api/inbox', email.inbox);
 app.get('/api/body', email.body);
 app.get('/api/mailboxes', email.mailboxes);
-app.get('/login', email.login);
-//app.get('/api/people', linkdin.people);
-//app.get('/li-auth', linkdin.auth);
-
+app.get('/login', login.index);
+app.post('/login', login.post);
 
 
 http.createServer(app).listen(app.get('port'), function(){

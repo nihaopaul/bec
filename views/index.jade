@@ -8,18 +8,15 @@ html
     link(rel='stylesheet', href='/stylesheets/base.css')
 
   body
-    // 
-      Folders 
+
     ul.folders(data-bind='foreach: folders')
       li(data-bind='text: $data.name, css: { selected: $data == $root.chosenFolderId() }, click: $root.goToFolder')
-    // 
-      Mails grid 
-    .main(data-bind='foreach: chosenFolderData')
+
+    .main(data-bind="foreach: chosenFolderData")
       .emails(data-bind='css: { selected: $data == $root.chosenMailData() }, click: $root.goToMail')
         span.thread_title(data-bind='text: title')
         span.time(data-bind='text: $root.formattime(date)')
-    // 
-      Chosen mail 
+
     .viewMail(data-bind='with: chosenMailData')
       .mailInfo
         h1(data-bind='text: subject')
