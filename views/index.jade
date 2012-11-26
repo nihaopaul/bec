@@ -7,22 +7,19 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
     link(rel='stylesheet', href='/stylesheets/base.css')
 
-  body
-    // 
-      Folders 
+  body(data-bind="event: { keypress: $root.goToNav }")
+
     ul.folders(data-bind='foreach: folders')
-      li(data-bind='text: $data.name, css: { selected: $data == $root.chosenFolderId() }, click: $root.goToFolder')
-    // 
-      Mails grid 
-    .main(data-bind='foreach: chosenFolderData')
-      .emails(data-bind='css: { selected: $data == $root.chosenMailData() }, click: $root.goToMail')
-        span.thread_title(data-bind='text: title')
+      li(data-bind='text: $data.name, css: { selected: $data.path == $root.chosenFolderId() }, click: $root.goToFolder')//, attr: { "class": $data.type.toLowerCase() }
+
+    .main(data-bind="foreach: chosenFolderData")
+      .emails(data-bind='css: { selected: $data == $root.selectedTitle() }, click: $root.goToMail')
+        span.thread_title(data-bind="text: ($data.title) ? title : 'No Subject'")
         span.time(data-bind='text: $root.formattime(date)')
-    // 
-      Chosen mail 
+
     .viewMail(data-bind='with: chosenMailData')
       .mailInfo
-        h1(data-bind='text: subject')
+        h1(data-bind="text: ($data.subject) ? subject : 'No Subject'")
         p
           label From
           | :

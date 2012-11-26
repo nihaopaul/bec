@@ -81,8 +81,10 @@ header { padding: 10px;  overflow: show; display: block; background-color: rgba(
 .htmlmessage { word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px; font-size: normal; }
 .address { background: #fff; border-radius: 5px; margin: 5px; padding: 5px 0; overflow: none;clear: both; }
 
-.time { padding-left: 20px; position: absolute; right: 0; top: 0; z-index: 1;  background: #eaeaea; }
-.emails { position: relative; overflow: none; background: #eaeaea; }
-.emails:nth-child(odd), .emails:nth-child(odd) .time { background: #ccc; }
+.main { }
+.main .time { padding-left: 20px; position: absolute; right: 0; top: 0; z-index: 1;  }
+.main .emails, .main .emails .time { position: relative; overflow: allow; background: #eaeaea; }
+.main .emails:nth-child(odd), .main .emails:nth-child(odd) .time { background: #ccc; }
 
-
+.main .emails.selected { padding-left: 10px; background-color: #444 !important; color: white; text-shadow:none; border-right-color: #aaa; border-left: none; box-shadow:inset 1px 2px 6px #070707; }
+.main .emails.selected .time { background: none; }
