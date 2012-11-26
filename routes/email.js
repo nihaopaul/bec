@@ -83,7 +83,7 @@ exports.inbox = function(req, res){
 
 	var mail = {};
 	var folder = 'INBOX';
-	var limit = 20;
+	var limit = 100;
 
 	var client = inbox.createConnection(false, req.session.imap.server, {
 	    secureConnection: req.session.imap.secure ? false : true,
