@@ -32,7 +32,7 @@ function WebmailViewModel() {
                       self.chosenFolderData.remove(function(item) { return item.messageId == value });
                     });
                 } 
-                self.chosenFolderData.remove(function(item) { return item.messageId == value });
+               // self.chosenFolderData.remove(function(item) { return item.messageId == value });
             }
 
             self.selectedTitle(data[0]);
