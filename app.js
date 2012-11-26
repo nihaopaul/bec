@@ -14,11 +14,11 @@ var express = require('express')
 var app = express();
 var config = require('./config')(app);
 
-
+/*
 var mongoose = require('mongoose')
   , db = mongoose.connect('mongodb://localhost/inbox')
   , Inbox = require('./models.js').Inbox(db);
-
+*/
 
 app.configure(function(){
   app.set('port', process.env.OPENSHIFT_INTERNAL_PORT || 3000);

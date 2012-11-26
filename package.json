@@ -14,6 +14,7 @@
     "dateformat" : "*",
     "mongoose":">=2.5.13",
     "moment" : "1.7.2",
-    "linkedin-js" : "*"
+    "linkedin-js" : "*",
+    "iconv" : "*"
   }
 }
