@@ -3,18 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "supervise app"
+    "start": "node app"
   },
   "dependencies": {
-    "express": "3.0.0rc4",
+    "express": "*",
     "jade": "*", 
-    "inbox" : "0.1.26",
-    "mailparser" : "0.2.30",
-    "pipette" : "0.9.1",
+    "inbox" : "*",
+    "mailparser" : "*",
+    "pipette" : "*",
     "dateformat" : "*",
-    "mongoose":">=2.5.13",
-    "moment" : "1.7.2",
+    "mongoose":"*",
+    "moment" : "*",
     "linkedin-js" : "*",
     "iconv" : "*"
+
   }
 }
