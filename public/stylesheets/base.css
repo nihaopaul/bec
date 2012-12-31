@@ -1,0 +1,90 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+
+
+body {
+	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height: 1.4em;
+	background: #eaeaea url('/images/bg.png');
+	color: #4d4d4d;
+	width: 100%;
+	margin: 0 auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+.main { padding: 10px; }
+.time { position: relative; float: right; }
+.message_list { white-space: pre; }
+/*
+	Hack to remove background from Mobile Safari.
+	Can't use it globally since it destroys checkboxes in Firefox and Opera
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	#toggle-all,
+	#todo-list li .toggle {
+		background: none;
+	}
+
+	#todo-list li .toggle {
+		height: 40px;
+	}
+
+	#toggle-all {
+		top: -56px;
+		left: -15px;
+		width: 65px;
+		height: 41px;
+		-webkit-transform: rotate(90deg);
+		transform: rotate(90deg);
+		-webkit-appearance: none;
+		appearance: none;
+	}
+}
+
+.hidden{
+	display:none;
+}
+
+.body { border: 2px solid #ccc; padding: 10px; background: rgba(255,255,255,1); }
+
+header { padding: 10px;  overflow: show; display: block; background-color: rgba(0,0,0,.2); position: relative;    }
+.fromblock { display: inline-block;  position: relative;  padding-right: 10px ; margin: 0;   }
+.fromblock h1 { font-size: 1.1em; margin: 0; padding: 0;  }
+.fromblock h2 { font-weight: normal; font-size: 1.0em; margin: 0; padding: 0; }
+.informationblock { margin: 0px; display: inline-block;  position: relative; }
+.informationblock h2 { font-size: 1.1em; margin: 0; padding: 0;  }
+.informationblock h1 { font-weight: normal; font-size: 1.0em; margin: 0; padding: 0; }
+.infolist ul { margin: 0; padding: 0; line-height: 0.8em; }
+.infolist .tolist li, .infolist .cclist li { display: inline; font-size: 0.8em; margin: 0; padding: 0; }
+.infolist {  display: block; position: relative; margin-top: 10px;  }
+
+/* i find this too intrustive */
+.folders { background-color: #bbb; list-style-type: none; padding: 0; margin: 10px; }
+.folders li:hover { background-color: #ddd; }    
+.folders li:first-child { border-left: none; }
+.folders li { font-size: 12px; font-weight: bold; display: inline-block; padding: 0.0em 0.5em; cursor: pointer; color: #444; text-shadow: #f7f7f7 0 1px 1px; border-left: 1px solid #ccc; }
+.folders li { *display: inline !important; } /* IE7 only */
+.folders .selected { background-color: #444 !important; color: white; text-shadow:none; border-right-color: #aaa; border-left: none; box-shadow:inset 1px 2px 6px #070707; }    
+
+/* names */
+
+.names { background:#ccc; border-radius: 5px; padding: 3px 5px; font-size: small; overflow: none; clear: both;  }
+
+.viewMail { margin: 10px; }
+.htmlmessage { word-wrap: break-word; background: #fff; padding: 10px; border-radius: 5px; font-size: normal; }
+.address { background: #fff; border-radius: 5px; margin: 5px; padding: 5px 0; overflow: none;clear: both; }
+
+.main { }
+.main .time { padding-left: 20px; position: absolute; right: 0; top: 0; z-index: 1;  }
+.main .emails, .main .emails .time { position: relative; overflow: allow; background: #eaeaea; }
+.main .emails:nth-child(odd), .main .emails:nth-child(odd) .time { background: #ccc; }
+
+.main .emails.selected { padding-left: 10px; background-color: #444 !important; color: white; text-shadow:none; border-right-color: #aaa; border-left: none; box-shadow:inset 1px 2px 6px #070707; }
+.main .emails.selected .time { background: none; }

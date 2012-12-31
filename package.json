@@ -1,0 +1,21 @@
+{
+  "name": "Webmail",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "*",
+    "jade": "*", 
+    "inbox" : "*",
+    "mailparser" : "*",
+    "pipette" : "*",
+    "dateformat" : "*",
+    "mongoose":"*",
+    "moment" : "*",
+    "linkedin-js" : "*",
+    "iconv" : "*"
+
+  }
+}

@@ -1,0 +1,14 @@
+--- 
+applications: 
+  .: 
+    infra: hp
+    framework: 
+      info: 
+        description: Node.js Application
+        exec: 
+        mem: 64M
+      name: node
+    url: ${name}.${target-base}
+    instances: 1
+    mem: "256"
+    name: fye
