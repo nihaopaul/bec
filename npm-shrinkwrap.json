@@ -1,19 +1,21 @@
 {
+  "name": "Webmail",
+  "version": "0.0.1",
   "dependencies": {
-    "dateformat": {
-      "version": "1.0.3-1.2.3"
-    },
     "express": {
-      "version": "3.0.0rc4",
+      "version": "3.0.5",
       "dependencies": {
         "connect": {
-          "version": "2.4.4",
+          "version": "2.7.1",
           "dependencies": {
             "qs": {
-              "version": "0.4.2"
+              "version": "0.5.1"
             },
             "formidable": {
               "version": "1.0.11"
+            },
+            "crc": {
+              "version": "0.2.0"
             },
             "bytes": {
               "version": "0.1.0"
@@ -33,10 +35,10 @@
           "version": "0.3.3"
         },
         "cookie": {
-          "version": "0.0.4"
+          "version": "0.0.5"
         },
-        "crc": {
-          "version": "0.2.0"
+        "buffer-crc32": {
+          "version": "0.1.1"
         },
         "fresh": {
           "version": "0.1.0"
@@ -45,32 +47,46 @@
           "version": "0.0.1"
         },
         "send": {
-          "version": "0.0.4",
+          "version": "0.1.0",
           "dependencies": {
             "mime": {
               "version": "1.2.6"
             }
           }
         },
+        "cookie-signature": {
+          "version": "0.0.1"
+        },
         "debug": {
           "version": "0.7.0"
         }
       }
     },
-    "iconv": {
-      "version": "1.2.4"
+    "jade": {
+      "version": "0.27.7",
+      "dependencies": {
+        "commander": {
+          "version": "0.6.1"
+        },
+        "mkdirp": {
+          "version": "0.3.4"
+        },
+        "coffee-script": {
+          "version": "1.4.0"
+        }
+      }
     },
     "inbox": {
-      "version": "0.1.27",
+      "version": "0.1.28",
       "dependencies": {
         "mimelib": {
-          "version": "0.2.7",
+          "version": "0.2.10",
           "dependencies": {
             "encoding": {
               "version": "0.1.5",
               "dependencies": {
                 "iconv-lite": {
-                  "version": "0.2.6"
+                  "version": "0.2.7"
                 }
               }
             },
@@ -80,7 +96,7 @@
           }
         },
         "xoauth2": {
-          "version": "0.1.3",
+          "version": "0.1.4",
           "dependencies": {
             "request": {
               "version": "2.12.0",
@@ -110,33 +126,11 @@
         }
       }
     },
-    "jade": {
-      "version": "0.27.7",
-      "dependencies": {
-        "commander": {
-          "version": "0.6.1"
-        },
-        "mkdirp": {
-          "version": "0.3.4"
-        },
-        "coffee-script": {
-          "version": "1.4.0"
-        }
-      }
-    },
-    "linkedin-js": {
-      "version": "0.1.4",
-      "dependencies": {
-        "oauth": {
-          "version": "0.9.0"
-        }
-      }
-    },
     "mailparser": {
       "version": "0.2.31",
       "dependencies": {
         "mimelib": {
-          "version": "0.2.7",
+          "version": "0.2.10",
           "dependencies": {
             "addressparser": {
               "version": "0.1.3"
@@ -147,7 +141,7 @@
           "version": "0.1.5",
           "dependencies": {
             "iconv-lite": {
-              "version": "0.2.6"
+              "version": "0.2.7"
             }
           }
         },
@@ -156,17 +150,25 @@
         }
       }
     },
-    "moment": {
-      "version": "1.7.2"
+    "pipette": {
+      "version": "0.9.1",
+      "dependencies": {
+        "typ": {
+          "version": "0.6.3"
+        }
+      }
+    },
+    "dateformat": {
+      "version": "1.0.4-1.2.3"
     },
     "mongoose": {
-      "version": "3.4.0",
+      "version": "3.5.3",
       "dependencies": {
         "hooks": {
           "version": "0.2.1"
         },
         "mongodb": {
-          "version": "1.1.11",
+          "version": "1.2.7",
           "dependencies": {
             "bson": {
               "version": "0.1.5"
@@ -178,16 +180,25 @@
         },
         "sliced": {
           "version": "0.0.3"
+        },
+        "muri": {
+          "version": "0.1.0"
         }
       }
     },
-    "pipette": {
-      "version": "0.9.1",
+    "moment": {
+      "version": "1.7.2"
+    },
+    "linkedin-js": {
+      "version": "0.1.4",
       "dependencies": {
-        "typ": {
-          "version": "0.6.3"
+        "oauth": {
+          "version": "0.9.0"
         }
       }
+    },
+    "iconv": {
+      "version": "1.2.4"
     }
   }
 }
