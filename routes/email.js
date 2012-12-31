@@ -50,6 +50,7 @@ function has_cookies(req, res) {
 				if (!o){
 					callback(false);
 				} else {
+					req.session.folder = e;
 					callback(o);
 				}
 			});
@@ -82,7 +83,7 @@ exports.inbox = function(req, res){
 
 
 	var mail = {};
-	var folder = 'INBOX';
+	var folder = req.session.folder ? req.session.folder : 'INBOX&2';
 	var limit = 100;
 
 	var client = inbox.createConnection(false, req.session.imap.server, {
@@ -198,7 +199,7 @@ exports.body = function(req, res) {
 
 	//req.app.imap.uuid = req.params.UUID;
 	var mail, data, postData = {};
-	req.app.imap.folder = 'INBOX';
+	req.app.imap.folder = req.session.folder ? req.session.folder : 'INBOX&3';
 	if (req.query.folder) {
 		req.app.imap.folder = req.query.folder;
 	}

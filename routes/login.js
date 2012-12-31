@@ -37,7 +37,8 @@ exports.index = function(req, res){
 				res.clearCookie('cookies.sec');
 			} else {
 				req.session.imap = o;
-				res.redirect('/#/INBOX');
+				req.session.folder = e;
+				res.redirect('/#/'+e);
 			}
 		});
 	} else {
@@ -67,7 +68,9 @@ exports.post = function(req,res) {
 			res.cookie('se', AM.Crypto(req.app.encryptionkey, string, o.server), { maxAge: 900000 }); //server
 			res.cookie('sec', AM.Crypto(req.app.encryptionkey, string, o.secure), { maxAge: 900000 }); //secure
 
-			res.redirect('/#/INBOX');
+			req.session.folder = e;
+
+			res.redirect('/#/'+e);
 		}
 	});
 };
