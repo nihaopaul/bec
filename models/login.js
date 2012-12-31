@@ -24,7 +24,19 @@ AM.Login = function(user, pass, server, secure,  callback)
 	data.secure = secure;
 
 	client.on("connect", function(){
-	   callback("true", data);
+	    //callback("true", data);
+	    //quyizuzmhvuyygpk
+		client.listMailboxes(function(error, mailboxes){
+			if (error) {
+				console.log('error, something went wrong at listing mailboxes');
+				console.log(error);
+				callback(error);
+			} else {
+				callback(mailboxes[0].path, data);
+			}
+		});
+
+
 	});
 
 	client.on("error", function(error){
