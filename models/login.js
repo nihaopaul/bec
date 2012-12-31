@@ -31,7 +31,7 @@ AM.Login = function(user, pass, server, secure,  callback)
 				console.log(error);
 				callback(error);
 			} else {
-				if (count(mailboxes)) {
+				if (mailboxes.length) {
 					callback(mailboxes[0].path, data);
 				} else {
 					callback("INBOX", data);
