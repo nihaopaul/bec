@@ -9,8 +9,9 @@ module.exports = AM;
 
 AM.Login = function(user, pass, server, secure,  callback)
 {
-	var client = inbox.createConnection(false, server, {
-	    secureConnection: secure,
+	var port = secure ? 993 : 143;
+	var client = inbox.createConnection(port, server, {
+	    secureConnection: true,
 	    auth:{
 	        user: user,
 	        pass: pass

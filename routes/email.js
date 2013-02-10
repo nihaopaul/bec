@@ -86,8 +86,10 @@ exports.inbox = function(req, res){
 	var folder = req.session.folder ? req.session.folder : 'INBOX&2';
 	var limit = 100;
 
-	var client = inbox.createConnection(false, req.session.imap.server, {
-	    secureConnection: req.session.imap.secure ? false : true,
+	var port = req.session.imap.secure ? 993 : 143;
+
+	var client = inbox.createConnection(port, req.session.imap.server, {
+	    secureConnection: true,
 	    auth:{
 	        user: req.session.imap.user,
 	        pass: req.session.imap.pass
@@ -122,9 +124,10 @@ exports.inbox = function(req, res){
 	        	if (messages) {
 	        		messages.reverse();
 	        	}
-	        	res.send( messages);
+
+	        	res.send( messages );
 	        	client.close();
-				console.log('closed inbox');
+				console.log('closed inbox list');
 	        });
 
 
@@ -142,9 +145,9 @@ exports.mailboxes = function(req,res) {
 		res.send(session);
 		return true;		
 	}
-
-	var client = inbox.createConnection(false, req.session.imap.server, {
-	    secureConnection: req.session.imap.secure ? false : true,
+	var port = req.session.imap.secure ? 993 : 143;
+	var client = inbox.createConnection(port, req.session.imap.server, {
+	    secureConnection: true,
 	    auth:{
 	        user: req.session.imap.user,
 	        pass: req.session.imap.pass
@@ -156,6 +159,7 @@ exports.mailboxes = function(req,res) {
 	client.on("connect", function(){
 
 		client.listMailboxes(function(error, mailboxes){
+			client.close();
 	        if(error) { 
 	        	console.log("mailbox: " + error);
 	        	res.send({error: error}) ;
@@ -163,19 +167,22 @@ exports.mailboxes = function(req,res) {
 			var root = mailboxes;
 
 		    for(var i=0, len = mailboxes.length; i<len; i++){
+		    	//console.log(mailboxes);
 		        if(mailboxes[i].hasChildren){
+
 		            mailboxes[i].listChildren(function(error, children){
 		            	children.unshift(root[0]);
+		            	console.log(children);
 		            	res.send(children);
-					    client.close();
-						console.log("closed mailboxes");
 		            });
 		        }
 		    }
 		});
+
 	});
+
 	client.on("end", function() {
-		console.log("ended");
+		console.log("closed mailbox list");
 	});
 
 
@@ -232,9 +239,9 @@ exports.body = function(req, res) {
 
 	});
 
-
-	var client = inbox.createConnection(false, req.session.imap.server, {
-	    secureConnection: req.session.imap.secure ? false : true,
+	var port = req.session.imap.secure ? 993 : 143;
+	var client = inbox.createConnection(port, req.session.imap.server, {
+	    secureConnection: true,
 	    auth:{
 	        user: req.session.imap.user,
 	        pass: req.session.imap.pass

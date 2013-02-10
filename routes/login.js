@@ -55,7 +55,7 @@ exports.post = function(req,res) {
 	AM.Login(req.param('user'), req.param('pass'), req.param('server'), secure, function(e, o){
 		if (!o){
 			res.redirect('/login');
-
+			console.log(e);
 		} else {
 			req.session.imap = o;
 
